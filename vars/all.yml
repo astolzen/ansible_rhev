@@ -1,0 +1,23 @@
+ovirtuser: admin@internal
+ovirturl: https://10.32.96.2
+ovirtzone: Hosted_Cluster
+ovirtregion: COE_MUC
+ovirtstor: inf44
+ovirtpw: password
+vms:
+  vm21:
+    id: 21
+    cpu: 2
+    mem: 4096
+  vm22:
+    id: 22
+    cpu: 2
+    mem: 4096
+  vm23:
+    id: 23
+    cpu: 2
+    mem: 4096
+  vm24:
+    id: 24
+    cpu: 2
+    mem: 4096

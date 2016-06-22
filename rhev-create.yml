@@ -1,0 +1,29 @@
+---
+- hosts: localhost
+  gather_facts: no
+  vars_files:
+  - vars/all.yml
+
+  tasks:
+  - name: Create Ovirt VM
+    ovirt:
+      instance_name: "{{ item.key }}"
+      resource_type: template
+      image: ast_RH7_160621
+      instance_type: server
+      user: "{{ ovirtuser }}"
+      password: "{{ ovirtpw }}"
+      url: "{{ovirturl }}"
+#      instance_disksize: "{{ item.value.disk }}"
+      zone: "{{ ovirtzone }}"
+      region: "{{ ovirtregion }}"
+      instance_cpus: "{{ item.value.cpu }}"
+      instance_nic: nic1
+      instance_network: rhevm
+      instance_mem: "{{ item.value.mem }}"
+      disk_alloc: thin
+      sdomain: "{{ ovirtstor }}"
+      instance_cores: 1
+      instance_os: rhel_6x64
+      disk_int: virtio
+    with_dict: "{{ vms }}"
