@@ -1,0 +1,23 @@
+ovirtuser: admin@internal
+ovirturl: https://rhv.manager/ovirt-engine/api
+ovirtzone: cluster
+ovirtregion: datacenter
+ovirtstor: storage
+ovirtpw: password
+vmtemplate: cloud_rhel
+storagedomain: storage
+autorized_key: "ssh-rsa ....  user@localhost"
+
+vms:
+  vm10:
+    id: 10
+    cpu: 4
+    mem: 8GiB
+  vm11:
+    id: 11
+    cpu: 2
+    mem: 4GiB
+  vm12:
+    id: 12
+    cpu: 4
+    mem: 8GiB

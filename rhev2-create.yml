@@ -1,0 +1,58 @@
+---
+- hosts: localhost
+  gather_facts: no
+  vars_files:
+  - rhev_vars.yml
+
+  tasks:
+  - name: Auth
+    ovirt_auth:
+      url: "{{ ovirturl }}"
+      username: "{{ ovirtuser }}"
+      password: "{{ ovirtpw }}"
+      insecure: yes
+  - name: Create Ovirt VM
+    ovirt_vms:
+      auth: "{{ ovirt_auth }}"
+      name: "{{ item.key }}"
+      template: "{{ vmtemplate }}"
+      cluster: "{{ ovirtzone }}"
+      memory: "{{ item.value.mem }}"
+      memory_guaranteed: "{{ item.value.mem }}"
+      high_availability: true
+      operating_system: rhel_7x64
+      cloud_init:
+        nic_boot_protocol: static
+        nic_ip_address: "192.168.103.{{ item.value.id }}"
+        nic_netmask: 255.255.252.0
+        nic_gateway: 192.168.103.253
+        nic_name: eth0
+        nic_on_boot: true
+        host_name: "vm{{ item.value.id }}.test.local"
+        user_name: root
+        root_password: redhat
+        regenerate_ssh_keys: true
+        authorized_ssh_keys: "{{ autorized_key }}"
+    with_dict: "{{ vms }}"
+  - name: Add Disk
+    ovirt_disks:
+      auth: "{{ ovirt_auth }}"
+      name: "{{ item.key }}_second_disk"
+      vm_name: "{{ item.key }}"
+      size: 80GiB
+      interface: virtio
+      format: raw
+      storage_domain: "{{ storagedomain }}"
+    with_dict: "{{ vms }}"
+  - name: Stop vms
+    ovirt_vms:
+      auth: "{{ ovirt_auth }}"
+      name: "{{ item.key }}"
+      state: stopped
+    with_dict: "{{ vms }}"
+  - name: Start vms
+    ovirt_vms:
+      auth: "{{ ovirt_auth }}"
+      name: "{{ item.key }}"
+      state: running
+    with_dict: "{{ vms }}"
