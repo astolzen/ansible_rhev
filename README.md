@@ -3,7 +3,7 @@ Playbook to create, customize and run VMs on RHV/Ovirt
 Uses Version 4 of the RHV/Ovirt API
 
 What the example does:
-- Creates VMs as defined in teh Vars file
+- Creates VMs as defined in the Vars file
 - uses cloud-init to set static IPs, password and shared key
 - adds a second disk to each VM
 - reboots all VMs (to apply IP changes)
